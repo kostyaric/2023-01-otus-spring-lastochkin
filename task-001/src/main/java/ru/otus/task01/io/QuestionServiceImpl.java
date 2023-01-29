@@ -1,6 +1,6 @@
 package ru.otus.task01.io;
 
-import ru.otus.task01.Question;
+import ru.otus.task01.domain.Question;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,10 +11,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuestionService {
+public class QuestionServiceImpl {
 
     private static final String DELIMITER = ",";
-    private static final String RESOURCE_NAME = "questions.csv";
+    private String questionFile;
+
+    public void setQuestionFile(String questionFile) {
+        this.questionFile = questionFile;
+    }
 
     private Question createQuestion(String[] questionAndAnswers) {
 
@@ -36,7 +40,7 @@ public class QuestionService {
     private Set<Question> readQuestions() {
 
         Set<Question> questions = new LinkedHashSet<>();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(RESOURCE_NAME);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(questionFile);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         String line;
@@ -61,10 +65,8 @@ public class QuestionService {
     }
 
     public void printQuestions() {
-        printDelimiterLine();
         for (Question question : readQuestions()) {
-            System.out.println(question);
-//            question.printQuestionAndAnswers();
+            question.printQuestionAndAnswers();
         }
     }
 

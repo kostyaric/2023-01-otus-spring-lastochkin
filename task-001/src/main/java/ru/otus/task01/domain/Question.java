@@ -1,6 +1,6 @@
-package ru.otus.task01;
+package ru.otus.task01.domain;
 
-import ru.otus.task01.io.QuestionService;
+import ru.otus.task01.io.QuestionServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class Question {
 
         int counter = 0;
 
-        QuestionService.printDelimiterLine();
+        QuestionServiceImpl.printDelimiterLine();
         System.out.println(this.questionText);
 
         for (String answer : answers) {
@@ -35,7 +35,6 @@ public class Question {
             System.out.println(TAB + counter + ". " + answer);
         }
 
-        System.out.println("Correct answer is: '" + answers.get(validAnswerIndex) + "'");
     }
 
 }
