@@ -1,9 +1,10 @@
 package ru.otus.task01.io;
 
 import ru.otus.task01.domain.Question;
+import ru.otus.task01.io.exceptions.ReadQuestionsException;
+import ru.otus.task01.io.exceptions.WronQuestionFormatException;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -11,12 +12,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuestionServiceImpl {
+public class QuestionServiceImpl implements QuestionService {
 
     private static final String DELIMITER = ",";
-    private String questionFile;
+    private final PrintService printService;
+    private final String questionFile;
 
-    public void setQuestionFile(String questionFile) {
+    public QuestionServiceImpl (PrintService printService, String questionFile) {
+        this.printService = printService;
         this.questionFile = questionFile;
     }
 
@@ -37,36 +40,34 @@ public class QuestionServiceImpl {
 
     }
 
-    private Set<Question> readQuestions() {
+    private Set<Question> readQuestions() throws ReadQuestionsException {
 
         Set<Question> questions = new LinkedHashSet<>();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(questionFile);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        String line;
-        try {
+        try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream(questionFile);)
+        {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
             while ((line = reader.readLine()) != null) {
                 String[] questionAndAnswers = line.split(DELIMITER);
                 if (questionAndAnswers.length < 3) {
-                    System.out.println("!!!ERROR. String '" + line + "' have to contains 3 parameters as minimum");
-                    continue;
+                    throw new WronQuestionFormatException("String '" + line + "' have to contains 3 parameters as minimum");
                 }
                 questions.add(createQuestion(questionAndAnswers));
             }
-        } catch (IOException e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
+            throw new ReadQuestionsException("Read question csv file error");
         }
 
         return questions;
     }
 
-    public static void printDelimiterLine() {
-        System.out.println("----------------");
-    }
-
-    public void printQuestions() {
-        for (Question question : readQuestions()) {
-            question.printQuestionAndAnswers();
+    public void startProcess() {
+        try {
+            readQuestions().stream().forEach(printService::printItem);
+        } catch (ReadQuestionsException e) {
+            e.printStackTrace();
         }
     }
 
