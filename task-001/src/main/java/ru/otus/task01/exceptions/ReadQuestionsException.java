@@ -1,4 +1,4 @@
-package ru.otus.task01.io.exceptions;
+package ru.otus.task01.exceptions;
 
 public class ReadQuestionsException extends Exception{
     public ReadQuestionsException(String message) {

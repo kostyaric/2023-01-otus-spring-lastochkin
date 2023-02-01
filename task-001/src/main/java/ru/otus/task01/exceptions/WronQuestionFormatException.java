@@ -1,4 +1,4 @@
-package ru.otus.task01.io.exceptions;
+package ru.otus.task01.exceptions;
 
 public class WronQuestionFormatException extends Exception{
     public WronQuestionFormatException(String message) {

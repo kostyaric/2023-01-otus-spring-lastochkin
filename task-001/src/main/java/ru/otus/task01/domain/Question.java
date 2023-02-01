@@ -1,12 +1,10 @@
 package ru.otus.task01.domain;
 
-import ru.otus.task01.io.PrintServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Question implements Printable{
+public class Question{
 
-    private final String TAB = "    ";
     private String questionText;
     private int validAnswerIndex;
     private List<String> answers = new ArrayList<>();
@@ -17,23 +15,21 @@ public class Question implements Printable{
         this.answers.addAll(answers);
     }
 
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public int getValidAnswerIndex() {
+        return validAnswerIndex;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
     @Override
     public String toString() {
         return this.questionText;
     }
 
-    @Override
-    public void selfPrint() {
-
-        int counter = 0;
-
-        PrintServiceImpl.printDelimiterLine();
-        System.out.println(this.questionText);
-
-        for (String answer : answers) {
-            counter++;
-            System.out.println(TAB + counter + ". " + answer);
-        }
-
-    }
 }
