@@ -1,5 +1,6 @@
 package ru.otus.task01.io;
 
+import ru.otus.task01.dao.QuestionDao;
 import ru.otus.task01.domain.Question;
 import ru.otus.task01.io.exceptions.ReadQuestionsException;
 import ru.otus.task01.io.exceptions.WronQuestionFormatException;
@@ -17,10 +18,12 @@ public class QuestionServiceImpl implements QuestionService {
     private static final String DELIMITER = ",";
     private final PrintService printService;
     private final String questionFile;
+    private final QuestionDao questionDao;
 
-    public QuestionServiceImpl (PrintService printService, String questionFile) {
+    public QuestionServiceImpl(PrintService printService, String questionFile, QuestionDao questionDao) {
         this.printService = printService;
         this.questionFile = questionFile;
+        this.questionDao = questionDao;
     }
 
     private Question createQuestion(String[] questionAndAnswers) {

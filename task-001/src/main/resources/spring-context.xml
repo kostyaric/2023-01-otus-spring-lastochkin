@@ -5,9 +5,11 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="printService" class="ru.otus.task01.io.PrintServiceImpl"/>
+    <bean id="quesionDao" class="ru.otus.task01.dao.QuestionDaoImpl"/>
 
     <bean id="questionService" class="ru.otus.task01.io.QuestionServiceImpl">
         <constructor-arg index="0" ref="printService"/>
         <constructor-arg index="1" value="questions.csv"/>
+        <constructor-arg index="2" ref="quesionDao"/>
     </bean>
 </beans>
