@@ -1,5 +1,7 @@
 package ru.otus.task02.dao;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ru.otus.task02.domain.Question;
 import ru.otus.task02.exceptions.ReadQuestionsException;
 import ru.otus.task02.exceptions.WronQuestionFormatException;
@@ -10,12 +12,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class QuestionDaoImpl implements QuestionDao {
 
     private static final String DELIMITER = ",";
     private final String questionFile;
 
-    public QuestionDaoImpl(String questionFile) {
+    public QuestionDaoImpl(@Value("${question.file}") String questionFile) {
         this.questionFile = questionFile;
     }
 

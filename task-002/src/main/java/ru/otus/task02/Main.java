@@ -1,13 +1,19 @@
 package ru.otus.task02;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.task02.io.QuestionService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import ru.otus.task02.processor.QuestionService;
 
+@PropertySource("classpath:application.properties")
+@ComponentScan
+@Configuration
 public class Main {
 
     public static void main(String[] args) {
 
-        ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("/spring-context.xml");
+        AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(Main.class);
         QuestionService process = appContext.getBean(QuestionService.class);
         process.startProcess();
 

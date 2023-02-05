@@ -1,9 +1,12 @@
 package ru.otus.task02.io;
 
+import ru.otus.task02.domain.Question;
 import ru.otus.task02.exceptions.ReadQuestionsException;
 
 public interface PrintService {
 
-    void print() throws ReadQuestionsException;
+    void printQuestion(Question question);
+
+    void printAllQuestions() throws ReadQuestionsException;
 
 }
