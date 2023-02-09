@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.task02.dao.QuestionDao;
 import ru.otus.task02.domain.Question;
-import ru.otus.task02.exceptions.ReadQuestionsException;
+import ru.otus.task02.domain.User;
 import ru.otus.task02.io.InputService;
 import ru.otus.task02.io.PrintService;
-import ru.otus.task02.io.PrintServiceImpl;
 
 import java.util.List;
 
@@ -37,9 +36,24 @@ public class QuestionServiceImpl implements QuestionService {
         return userAnswerNumber == validAnswerNumber ? 1 : 0;
     }
 
+    private User createUser() {
+
+        String userFamily = "";
+        String userName = "";
+
+        printService.printAnyMessage("Input your family:");
+        userFamily = inputService.getUserInput();
+
+        printService.printAnyMessage("Input your name:");
+        userName = inputService.getUserInput();
+
+        return new User(userFamily, userName);
+    }
+
     public void startProcess() {
 
         int validAnswerCount = 0;
+        User user = createUser();
 
         try {
             List<Question> allQuestions = questionDao.getAll();
@@ -48,17 +62,12 @@ public class QuestionServiceImpl implements QuestionService {
                 String userAnswer = inputService.getUserInput();
                 validAnswerCount += checkAnswer(question, userAnswer);
             }
-        } catch (ReadQuestionsException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        PrintServiceImpl.printMessage("Correct answers is " + validAnswerCount);
-        if (validAnswerCount >= minimumCorrectAnswers) {
-            PrintServiceImpl.printMessage("You passed the test successfully. Your mark is " + validAnswerCount);
-        }
-        else {
-            PrintServiceImpl.printMessage("You failed the test.");
-        }
+        printService.printResult(user, validAnswerCount, validAnswerCount >= minimumCorrectAnswers);
+
     }
 
 }

@@ -3,6 +3,7 @@ package ru.otus.task02.io;
 import org.springframework.stereotype.Service;
 import ru.otus.task02.dao.QuestionDao;
 import ru.otus.task02.domain.Question;
+import ru.otus.task02.domain.User;
 import ru.otus.task02.exceptions.ReadQuestionsException;
 
 @Service
@@ -20,7 +21,7 @@ public class PrintServiceImpl implements PrintService{
 
         int counter = 0;
 
-        PrintServiceImpl.printDelimiterLine();
+        printDelimiterLine();
         System.out.println(question.getQuestionText());
 
         for (String answer : question.getAnswers()) {
@@ -35,8 +36,22 @@ public class PrintServiceImpl implements PrintService{
         questionDao.getAll().forEach(this::printQuestion);
     }
 
-    public static void printMessage(String message) {
+    public void printAnyMessage(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public void printResult(User user, int mark, boolean testPassed) {
+
+        printDelimiterLine();
+        printAnyMessage("Your mark is " + mark);
+        if (testPassed) {
+            printAnyMessage("You passed the test successfully.");
+        }
+        else {
+            printAnyMessage("You failed the test.");
+        }
+
     }
 
     public static void printDelimiterLine() {

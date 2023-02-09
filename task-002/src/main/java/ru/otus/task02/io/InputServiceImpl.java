@@ -15,6 +15,7 @@ public class InputServiceImpl implements InputService {
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    @Override
     public String getUserInput() {
 
         String userInput = "";
@@ -27,4 +28,5 @@ public class InputServiceImpl implements InputService {
         return userInput;
 
     }
+
 }
