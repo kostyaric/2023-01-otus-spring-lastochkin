@@ -3,6 +3,7 @@ package ru.otus.task02.processor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.task02.dao.QuestionDao;
+import ru.otus.task02.dao.UserDao;
 import ru.otus.task02.domain.Question;
 import ru.otus.task02.domain.User;
 import ru.otus.task02.io.InputService;
@@ -16,16 +17,19 @@ public class QuestionServiceImpl implements QuestionService {
     private final PrintService printService;
     private final InputService inputService;
     private final QuestionDao questionDao;
+    private final UserDao userDao;
     private final int minimumCorrectAnswers;
 
     public QuestionServiceImpl(PrintService printService,
                                InputService inputService,
                                QuestionDao questionDao,
+                               UserDao userDao,
                                @Value("${minimum.correct.ansewrs}") int minimumCorrectAnswers) {
 
         this.printService = printService;
         this.inputService = inputService;
         this.questionDao = questionDao;
+        this.userDao = userDao;
         this.minimumCorrectAnswers = minimumCorrectAnswers;
     }
 
@@ -36,24 +40,10 @@ public class QuestionServiceImpl implements QuestionService {
         return userAnswerNumber == validAnswerNumber ? 1 : 0;
     }
 
-    private User createUser() {
-
-        String userFamily = "";
-        String userName = "";
-
-        printService.printAnyMessage("Input your family:");
-        userFamily = inputService.getUserInput();
-
-        printService.printAnyMessage("Input your name:");
-        userName = inputService.getUserInput();
-
-        return new User(userFamily, userName);
-    }
-
     public void startProcess() {
 
         int validAnswerCount = 0;
-        User user = createUser();
+        User user = userDao.getUser();
 
         try {
             List<Question> allQuestions = questionDao.getAll();
