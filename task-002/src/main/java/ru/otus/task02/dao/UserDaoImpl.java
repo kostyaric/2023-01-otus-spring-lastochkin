@@ -2,18 +2,15 @@ package ru.otus.task02.dao;
 
 import org.springframework.stereotype.Component;
 import ru.otus.task02.domain.User;
-import ru.otus.task02.io.InputService;
-import ru.otus.task02.io.PrintService;
+import ru.otus.task02.io.IOService;
 
 @Component
 public class UserDaoImpl implements UserDao {
 
-    private final PrintService printService;
-    private final InputService inputService;
+    private final IOService ioService;
 
-    public UserDaoImpl(PrintService printService, InputService inputService) {
-        this.printService = printService;
-        this.inputService = inputService;
+    public UserDaoImpl(IOService ioService) {
+        this.ioService = ioService;
     }
 
     @Override
@@ -21,11 +18,11 @@ public class UserDaoImpl implements UserDao {
         String userFamily = "";
         String userName = "";
 
-        printService.printAnyMessage("Input your family:");
-        userFamily = inputService.getUserInput();
+        ioService.printMessage("Input your family:");
+        userFamily = ioService.readMessage();
 
-        printService.printAnyMessage("Input your name:");
-        userName = inputService.getUserInput();
+        ioService.printMessage("Input your name:");
+        userName = ioService.readMessage();
 
         return new User(userFamily, userName);
     }

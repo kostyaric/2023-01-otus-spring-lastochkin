@@ -53,7 +53,7 @@ class QuestionServiceImplTest {
         questions.add(new Question("What mark is enough to pass the task?", Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9"), 5));
 
         Mockito.when(userDao.getUser()).thenReturn(new User("Ivanov", "Ivan"));
-        Mockito.when(inputService.getUserInput()).thenReturn("0");
+        Mockito.when(inputService.readMessage()).thenReturn("0");
 
         try {
             Mockito.when(questionDao.getAll()).thenReturn(questions);

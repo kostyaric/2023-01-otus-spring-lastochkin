@@ -1,7 +1,7 @@
 package ru.otus.task02.exceptions;
 
-public class ReadQuestionsException extends Exception{
-    public ReadQuestionsException(String message) {
-        super(message);
+public class ReadQuestionsException extends RuntimeException{
+    public ReadQuestionsException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

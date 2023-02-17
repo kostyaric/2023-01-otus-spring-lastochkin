@@ -7,6 +7,7 @@ import ru.otus.task02.exceptions.ReadQuestionsException;
 import ru.otus.task02.exceptions.WronQuestionFormatException;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class QuestionDaoImpl implements QuestionDao {
     }
 
     @Override
-    public List<Question> getAll() throws ReadQuestionsException {
+    public List<Question> getAll() {
         List<Question> questions = new ArrayList<>();
         try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream(questionFile);)
         {
@@ -54,9 +55,8 @@ public class QuestionDaoImpl implements QuestionDao {
                 questions.add(createQuestion(questionAndAnswers));
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw new ReadQuestionsException("Read question csv file error");
+        catch (IOException e) {
+            throw new ReadQuestionsException("Read question csv file error", e);
         }
 
         return questions;

@@ -33,11 +33,11 @@ public class QuestionServiceImpl implements QuestionService {
         this.minimumCorrectAnswers = minimumCorrectAnswers;
     }
 
-    private int checkAnswer(Question question, String answer) {
+    private boolean checkAnswer(Question question, String answer) {
         int validAnswerNumber = question.getValidAnswerIndex() + 1;
         int userAnswerNumber = Integer.parseInt(answer);
 
-        return userAnswerNumber == validAnswerNumber ? 1 : 0;
+        return userAnswerNumber == validAnswerNumber;
     }
 
     public void startProcess() {
@@ -45,15 +45,11 @@ public class QuestionServiceImpl implements QuestionService {
         int validAnswerCount = 0;
         User user = userDao.getUser();
 
-        try {
-            List<Question> allQuestions = questionDao.getAll();
-            for (Question question : allQuestions) {
-                printService.printQuestion(question);
-                String userAnswer = inputService.getUserInput();
-                validAnswerCount += checkAnswer(question, userAnswer);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<Question> allQuestions = questionDao.getAll();
+        for (Question question : allQuestions) {
+            printService.printQuestion(question);
+            String userAnswer = inputService.readMessage();
+            validAnswerCount += checkAnswer(question, userAnswer) ? 1 : 0;
         }
 
         printService.printResult(user, validAnswerCount, validAnswerCount >= minimumCorrectAnswers);
