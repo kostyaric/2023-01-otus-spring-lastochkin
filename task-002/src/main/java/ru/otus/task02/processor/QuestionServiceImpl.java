@@ -9,6 +9,9 @@ import ru.otus.task02.domain.User;
 import ru.otus.task02.io.InputService;
 import ru.otus.task02.io.PrintService;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 @Service
