@@ -24,7 +24,7 @@ public class QuestionServiceImpl implements QuestionService {
                                InputService inputService,
                                QuestionDao questionDao,
                                UserDao userDao,
-                               @Value("${minimum.correct.ansewrs}") int minimumCorrectAnswers) {
+                               @Value("${answers.pass-value}") int minimumCorrectAnswers) {
 
         this.printService = printService;
         this.inputService = inputService;
