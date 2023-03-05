@@ -1,6 +1,7 @@
-question:
-  file-name: questions
-  file-ext: csv
+spring:
+  messages:
+    basename: "io"
+    encoding: "UTF-8"
 
 answers:
   pass-value: 3
