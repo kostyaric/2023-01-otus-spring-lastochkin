@@ -2,6 +2,7 @@ package ru.otus.task05.processor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.otus.task05.config.AnswersProperties;
 import ru.otus.task05.dao.QuestionDao;
 import ru.otus.task05.dao.UserDao;
 import ru.otus.task05.domain.Question;
@@ -18,19 +19,20 @@ public class QuestionServiceImpl implements QuestionService {
     private final InputService inputService;
     private final QuestionDao questionDao;
     private final UserDao userDao;
-    private final int minimumCorrectAnswers;
+    private final AnswersProperties answersProperties;
 
     public QuestionServiceImpl(PrintService printService,
                                InputService inputService,
                                QuestionDao questionDao,
                                UserDao userDao,
-                               @Value("${answers.pass-value}") int minimumCorrectAnswers) {
+                               AnswersProperties answersProperties
+    ) {
 
         this.printService = printService;
         this.inputService = inputService;
         this.questionDao = questionDao;
         this.userDao = userDao;
-        this.minimumCorrectAnswers = minimumCorrectAnswers;
+        this.answersProperties = answersProperties;
     }
 
     private boolean checkAnswer(Question question, String answer) {
@@ -52,7 +54,7 @@ public class QuestionServiceImpl implements QuestionService {
             validAnswerCount += checkAnswer(question, userAnswer) ? 1 : 0;
         }
 
-        printService.printResult(user, validAnswerCount, validAnswerCount >= minimumCorrectAnswers);
+        printService.printResult(user, validAnswerCount, validAnswerCount >= Integer.parseInt(answersProperties.getPassValue()));
 
     }
 

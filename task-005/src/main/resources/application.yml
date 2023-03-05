@@ -1,8 +1,9 @@
 question:
-  file: questions.csv
+  file-name: questions
+  file-ext: csv
 
 answers:
   pass-value: 3
 
-application:
-  locale: ru_RU
+localisation:
+  locale: en

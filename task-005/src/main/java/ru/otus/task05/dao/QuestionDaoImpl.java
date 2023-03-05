@@ -2,6 +2,8 @@ package ru.otus.task05.dao;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.otus.task05.config.LocalisationProperties;
+import ru.otus.task05.config.QuestionProperties;
 import ru.otus.task05.domain.Question;
 import ru.otus.task05.exceptions.ReadQuestionsException;
 import ru.otus.task05.exceptions.WronQuestionFormatException;
@@ -18,9 +20,13 @@ public class QuestionDaoImpl implements QuestionDao {
 
     private static final String DELIMITER = ",";
     private final String questionFile;
+    private final LocalisationProperties localeProperties;
+    private final QuestionProperties questionProperties;
 
-    public QuestionDaoImpl(@Value("${question.file}") String questionFile) {
-        this.questionFile = questionFile;
+    public QuestionDaoImpl(LocalisationProperties localeProperties, QuestionProperties questionProperties) {
+        this.localeProperties = localeProperties;
+        this.questionProperties = questionProperties;
+        this.questionFile = questionProperties.getFileName() + "_" + localeProperties.getLocale() +  "." + questionProperties.getFileExt();
     }
 
     private Question createQuestion(String[] questionAndAnswers) {
