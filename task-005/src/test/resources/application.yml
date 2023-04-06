@@ -1,0 +1,10 @@
+spring:
+  messages:
+    basename: "io"
+    encoding: "UTF-8"
+
+answers:
+  pass-value: 3
+
+localisation:
+  locale: en
