@@ -52,7 +52,6 @@ class QuestionServiceImplTest {
     private List<Question> questions;
 
 
-
     @BeforeEach
     void init() {
 
@@ -67,7 +66,6 @@ class QuestionServiceImplTest {
 
 }
 
-/*
     @Test
     @DisplayName("Проверка что тестирование не выбрасывает исключений")
     void startProcessTest() {
@@ -81,9 +79,8 @@ class QuestionServiceImplTest {
             e.printStackTrace();
         }
 
-        Assertions.assertDoesNotThrow(() -> questionService.startProcess());
+        Assertions.assertThatNoException().isThrownBy(() -> questionService.startProcess());
     }
-*/
 
     @Test
     @DisplayName("Сервис возвращает корректный результат")
